@@ -1,0 +1,30 @@
+@define-color text rgb(84, 84, 84);
+
+window {
+  background-color: black;
+  background-image: url("background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#window-box {
+  margin-left: 600px;
+}
+
+#input-label {
+  color: black;
+  font-size: 0.0;
+}
+
+#input-field {
+  box-shadow: inset 0px 0px 0px 2px @text;
+  background-color: rgba(37, 37, 37, 0.95);
+}
+
+#clock-label, #input-field {
+  color: @text;
+}
+
+#unlock-button {
+  opacity: 0.0;
+}

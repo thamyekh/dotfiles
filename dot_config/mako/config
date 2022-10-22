@@ -1,0 +1,26 @@
+max-history=10
+max-visible=5
+on-button-left=dismiss
+on-button-right=invoke-default-action
+
+background-color=#1E1D2F
+text-color=#D9E0EE
+border-color=#96CDFB
+progress-color=over #302D41
+
+width=350
+height=200
+margin=55,7
+padding=10
+border-radius=5
+default-timeout=10000
+
+[urgency=low]
+default-timeout=5000
+
+[urgency=normal]
+default-timeout=10000
+
+[urgency=high]
+default-timeout=0
+border-color=#F8BD96

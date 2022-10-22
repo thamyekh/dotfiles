@@ -1,0 +1,199 @@
+# Reference: https://github.com/x0rzavi/dotfiles/blob/main/dot_config/sway/config
+# Variables
+set {
+  $alt Mod1
+  $mod Mod4
+  $browser firefox-wayland
+  $file_manager nautilus
+  $menu custom-launcher.sh | xargs swaymsg exec --
+  $power custom-power.sh
+  $term footclient
+}
+
+# Theme: Catppuccin
+set {
+  $green #ABE9B3
+  $black #1E1E2E
+  $red #F28FAD
+  $peach #F8BD96
+  $transparent #00000000
+}
+
+# Colors
+# Class				border	background	text	indicator	child_border
+client.focused 			$green 	$green 		$black 	$red 		$green
+client.focused_inactive 	$green 	$black 		$green 	$red 		$green
+client.unfocused 		$peach 	$peach 		$black 	$red 		$peach
+client.urgent 			$red 	$red 		$black 	$red 		$red
+
+# Theming
+seat seat0 {
+    xcursor_theme Colloid-cursors
+    hide_cursor when-typing enable
+}
+set $gnome-schema org.gnome.desktop.interface
+exec_always gsettings set $gnome-schema {
+  gtk-theme 'Colloid'
+  #color-scheme 'prefer-dark'
+  icon-theme 'Colloid-dark'
+  cursor-theme 'Colloid-cursors'
+  font-name 'CaskaydiaCove Nerd Font Mono 11'
+  document-font-name 'CaskaydiaCove Nerd Font Mono 11'
+  monospace-font-name 'CaskaydiaCove Nerd Font Mono 11'
+}
+
+# Misc options
+focus_follows_mouse no
+floating_modifier $mod normal
+floating_maximum_size 1366 x 768
+
+# Aesthetics
+default_border none
+default_floating_border pixel 2
+titlebar_border_thickness 0
+title_align center
+gaps inner 5
+font pango:CaskaydiaCove Nerd Font Mono 11
+
+# Output
+output eDP-1 {
+	subpixel rgb
+  adaptive_sync on
+}
+
+# Input
+input type:keyboard xkb_numlock enable
+
+# Keybindings
+bindsym {
+  $mod+b exec $browser
+  $mod+Shift+f exec $file_manager
+  $mod+Return exec $term
+  $mod+Shift+q kill
+  $mod+d exec $menu
+  $mod+p exec $power
+# Control Audio
+  XF86AudioRaiseVolume exec "pw-volume-x86_64 change +2.5%; pkill -RTMIN+8 waybar"
+  XF86AudioLowerVolume exec "pw-volume-x86_64 change -2.5%; pkill -RTMIN+8 waybar"
+  XF86AudioMute exec "pw-volume-x86_64 mute toggle; pkill -RTMIN+8 waybar"
+  XF86AudioPlay exec playerctl play-pause
+  XF86AudioNext exec playerctl next
+  XF86AudioPrev exec playerctl previous
+# Control Brightness
+  XF86MonBrightnessUp exec brightnessctl set +10%
+  XF86MonBrightnessDown exec brightnessctl set 10%-
+# Screenshot
+  Print exec grimshot --notify copy output
+  $mod+Print exec grimshot --notify save output
+  Shift+Print exec grimshot --notify copy area
+  $mod+Shift+Print exec grimshot --notify save area
+# Default Keybindings
+  $mod+Left focus left
+  $mod+Down focus down
+  $mod+Up focus up
+  $mod+Right focus right 
+  $mod+Shift+c reload
+  $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+  $mod+Shift+Left move left
+  $mod+Shift+Down move down
+  $mod+Shift+Up move up
+  $mod+Shift+Right move right
+
+  $mod+1 workspace number 1
+  $mod+2 workspace number 2
+  $mod+3 workspace number 3
+  $mod+4 workspace number 4
+  $mod+5 workspace number 5
+  $mod+6 workspace number 6
+  $mod+7 workspace number 7
+  $mod+8 workspace number 8
+  $mod+9 workspace number 9
+  $mod+0 workspace number 10
+
+  $mod+Shift+1 move container to workspace number 1
+  $mod+Shift+2 move container to workspace number 2
+  $mod+Shift+3 move container to workspace number 3
+  $mod+Shift+4 move container to workspace number 4
+  $mod+Shift+5 move container to workspace number 5
+  $mod+Shift+6 move container to workspace number 6
+  $mod+Shift+7 move container to workspace number 7
+  $mod+Shift+8 move container to workspace number 8
+  $mod+Shift+9 move container to workspace number 9
+  $mod+Shift+0 move container to workspace number 10
+
+  $mod+$alt+Left workspace prev
+  $mod+$alt+Right workspace next
+  
+  $mod+h splith
+  $mod+v splitv
+  
+  $mod+w layout tabbed
+  $mod+e layout toggle split
+  
+  $mod+f fullscreen
+  $mod+Shift+space floating toggle
+  $mod+space focus mode_toggle
+  $mod+a focus parent
+  
+  $mod+Shift+minus move scratchpad
+  $mod+minus scratchpad show
+}
+
+# Modes
+mode "Resize" {
+  bindsym {
+    Left resize shrink width 20px
+    Down resize grow height 20px
+    Up resize shrink height 20px
+    Right resize grow width 20px
+
+    Return mode "default"
+    Escape mode "default"
+  }
+}
+
+mode "Layout" {
+  bindsym --to-code {
+    d layout stacking     ; mode "default"
+    t layout tabbed       ; mode "default"
+    s layout toggle split ; mode "default"
+    v layout splitv       ; mode "default"
+    h layout splith       ; mode "default"
+
+    Return mode "default"
+    Escape mode "default"
+  }
+}
+
+bindsym {
+  $mod+r mode "Resize"
+  $mod+l mode "Layout"
+}
+
+# Window rules
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [class="qemu-system-x86_64"] floating enable
+for_window [app_id="mpv|pqiv|qalculate-gtk"] floating enable
+for_window [app_id="firefox"] focus
+
+bar {
+  swaybar_command waybar
+}
+
+## Automove rules
+assign {
+	[app_id="firefox"] 2
+}
+
+include /etc/sway/config.d/*
+
+# Autostart
+exec {
+  dbus-update-activation-environment --all
+  dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus
+  clipman restore
+  foot --server
+  pipewire
+  wl-paste -t text --watch clipman store --max-items=15
+  }

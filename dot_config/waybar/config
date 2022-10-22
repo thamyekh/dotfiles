@@ -1,0 +1,101 @@
+{
+  "modules-left": [
+    "sway/workspaces",
+    "disk",
+    "memory",
+    "cpu",
+    "temperature"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "idle_inhibitor",
+  "backlight",
+  "custom/pipewire",
+  "network",
+  "battery",
+  "custom/power"
+  ],
+  //"custom/launcher": {
+  //    	"format": "\uf32e",
+  //    	"on-click": "custom-launcher.sh",
+  //    	"tooltip": false
+  //},
+  "sway/workspaces": {
+    "disable-scroll": true,
+  },
+  "disk": {
+    "format": "\uf7c9 {percentage_used}%"
+  },
+  "memory": {
+    "interval": 1,
+    "format": "\ufb19 {percentage}%",
+    "states": {
+      "warning": 85,
+      "critical": 90
+    },
+  },
+  "cpu": {
+    "interval": 1,
+    "format": "\uf85a {usage}% \uf066 {load}"
+  },
+  "temperature": {
+    "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+    "critical-threshold": 80,
+    "interval": 1,
+    "format": "{temperatureC}°C"
+  },
+  "clock": {
+    "interval": 1,
+    "format": "{:%I:%M %p  %A %b %d}",
+    "tooltip": false
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "\uf707",
+      "deactivated": "\uf708"
+    }
+  },
+  "backlight": {
+    "format": "\uf5df {percent}%",
+    "on-scroll-up": "brightnessctl set +10%",
+    "on-scroll-down": "brightnessctl set 10%-",
+    "smooth-scrolling-threshold": 5,
+  },
+  "custom/pipewire": {
+    "exec": "pw-volume-x86_64 status",
+    "return-type": "json",
+    "interval": "once",
+    "signal": 8,
+    "format": "{icon} {percentage}",
+    "format-icons": {
+      "mute": "\ufc5d",
+      "default": ["\uf026", "\uf027", "\uf028"]
+    }
+  },
+  "network": {
+    "interval": 1,
+    "format-wifi": "\uf9a1 {essid}",
+    "format-ethernet": "\uf6ff {ifname} ({ipaddr})",
+    "format-linked": "\uf9a1 {essid} (No IP)",
+    "format-disconnected": "\ufc81 Disconnected",
+    "max-length": 28,
+    "tooltip-format": "{ipaddr}/{cidr} via {gwaddr}"
+  },
+  "battery": {
+    "states": {
+      "warning": 20,
+      "critical": 10
+    },
+    "format": "{icon} {capacity}%",
+    "format-icons": ["\uf579", "\uf57b", "\uf57d", "\uf57f", "\uf581", "\uf578"],
+    "format-charging": "\uf583 {capacity}%",
+  },
+  "custom/power": {
+      "format": "\uf32e",
+      "on-click": "custom-power.sh",
+      "tooltip": false
+  }
+}
