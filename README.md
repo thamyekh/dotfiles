@@ -33,6 +33,7 @@ ln -s /etc/sv/<service> /var/service/
 # iwd
 
 Alternative to wpa_supplicant, once installed prevent iwd from removing the wireless interface in the config file.
+
 ```
 [tham@void ~]$ sudo vim /etc/iwd/main.conf
 ...
@@ -53,14 +54,25 @@ https://github.com/thamyekh/dotfiles
 
 # fonts
 
+fontconfig will scan the font directory below recursively, so you can create a tidy tree folder structure instead of keeping all fonts in the flat root directory. 
 ```
-TODO: write about fontconfig folder structure
+# put all of your fonts in:
+/usr/share/fonts/
 
+# keep it tidy by creating subfolders and dumping fonts in their respective folders
+/usr/share/fonts/<font_format>/<font_name>/
+
+# example
+[tham@void ~]$ ls /usr/share/fonts/otf/CaskaydiaCove/
+'Caskaydia Cove Nerd Font Complete Bold Italic.otf'
+'Caskaydia Cove Nerd Font Complete Bold.otf'
+'Caskaydia Cove Nerd Font Complete ExtraLight Italic.otf'
+'Caskaydia Cove Nerd Font Complete ExtraLight.otf'
 ```
 
 # swapfile
 
-refer to create_swapfile.md
+[refer to the wiki for detailed instructions for setting up a swapfile](https://github.com/thamyekh/dotfiles/wiki/swap-file)
 
 # python
 
@@ -94,17 +106,19 @@ reference: https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland#setting
 
 # manually setting theme
 gsettings set org.gnome.desktop.interface gtk-theme <theme-name>
-# example
 ```
 
 # swaywm
 
 ## debugging
 Start sway in verbose mode (-V) and redirecting the log output to a file
+```
+[tham@void ~]$ sway -V > debug.log
+```
 
 # audio
 
-refer to config_pipewire.md
+[refer to the wiki for detailed instructions for setting up pipewire](https://github.com/thamyekh/dotfiles/wiki/pipewire)
 
 # video
 
@@ -134,7 +148,7 @@ Alternatives:
 
 # waybar temperature
 
-refer to config_waybar_temp.md
+[refer to the wiki for detailed instructions for setting up the temperature module on waybar](https://github.com/thamyekh/dotfiles/wiki/temperature)
 
 # udisksctl
 ```
